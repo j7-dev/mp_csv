@@ -24,12 +24,15 @@ require_once __DIR__ . '/inc/class-components.php';
 
 class mp_csv
 {
-	public $filename = 'wp_live_demo.csv';
-	public $uploadDir = WP_CONTENT_DIR . '/demo/';
-	public $avatarImagesUrl;
-	public $csvFilePath;
-	public $csvData;
-	public $pluginUrl;
+	private $filename = 'wp_live_demo.csv'; // CSV 檔案名稱
+	private $uploadDir = WP_CONTENT_DIR . '/demo/'; // 檔案上傳路徑
+	private $avatarImagesUrl;
+	private $csvFilePath;
+	private $csvData;
+	private $pluginUrl;
+	private $shortcode = 'csv_table'; // 短碼名稱
+	private $count_cols = 8; // 要取幾欄的資料
+
 
 
 
@@ -39,7 +42,7 @@ class mp_csv
 		$this->init();
 
 		\add_action('wp_enqueue_scripts', [$this, 'components_assets']);
-		\add_shortcode('csv_table', [$this, 'callback']);
+		\add_shortcode($this->shortcode, [$this, 'callback']);
 	}
 
 	private function init(): void
@@ -67,19 +70,20 @@ class mp_csv
 			// 關閉檔案
 			fclose($file);
 
-			$csvData = [
-				"A" => [],
-				"B" => [],
-				"C" => [],
-				"D" => [],
-			];
+			$csvData = [];
+			for ($i = 0; $i < $this->count_cols; $i++) {
+				$alphabet = chr(65 + $i);
+				$csvData[$alphabet] = [];
+			}
+
+			$asciiA = 65;
 
 			foreach ($data as $key => $value) {
 				if (!in_array($key, [0, 1])) {
-					array_push($csvData['A'], $value[0] ?? '');
-					array_push($csvData['B'], $value[1] ?? '');
-					array_push($csvData['C'], $value[2] ?? '');
-					array_push($csvData['D'], $value[3] ?? '');
+					for ($i = 0; $i < $this->count_cols; $i++) {
+						$alphabet = chr($asciiA + $i);
+						array_push($csvData[$alphabet], $value[$i] ?? '');
+					}
 				}
 			}
 
@@ -106,6 +110,7 @@ class mp_csv
 
 		$tableData = $this->csvData[$column];
 
+
 		// 使用 array_slice() 切割前5個元素
 		$topFive = array_slice($tableData, 0, 5);
 
@@ -117,6 +122,7 @@ class mp_csv
 
 		// 計算分割點，這裡使用ceil函數確保分割點向上取整，以確保兩個分割後的陣列大小盡量相等
 		$splitPoint = ceil($arraySize / 2);
+
 
 		// 使用array_chunk分割陣列
 		$splitArrays = array_chunk($rest, (int)$splitPoint);
