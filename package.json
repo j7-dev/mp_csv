@@ -1,0 +1,10 @@
+{
+  "name": "csv",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "css": "npx tailwindcss -i ./src/assets/scss/index.scss -o ./src/assets/scss/tmp.scss && sass --no-source-map --style compressed ./src/assets/scss/tmp.scss ./src/assets/scss/index.css"
+  },
+  "author": "",
+  "license": "ISC"
+}
