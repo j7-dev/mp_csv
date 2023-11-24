@@ -16,3 +16,5 @@
 ```
 [csv_table column="A" title="業績表格"]
 ```
+
+<img src="https://github.com/j7-dev/mp_csv/assets/9213776/d7caae3e-2715-4762-8b54-30491390a405" />
