@@ -6,7 +6,7 @@
  * Plugin Name:       MP CSV
  * Plugin URI:
  * Description:       將CSV檔上傳到指定地方，自動抓取資料，並且提供短碼做業績排行顯示
- * Version:           0.0.1
+ * Version:           0.0.2
  * Author:            j7.dev.gg
  * Author URI:        https://github.com/j7-dev
  * License:           GPL-2.0+
@@ -38,14 +38,14 @@ class mp_csv
 	{
 		$this->init();
 
-		add_action('wp_enqueue_scripts', [$this, 'components_assets']);
-		add_shortcode('csv_table', [$this, 'callback']);
+		\add_action('wp_enqueue_scripts', [$this, 'components_assets']);
+		\add_shortcode('csv_table', [$this, 'callback']);
 	}
 
 	private function init(): void
 	{
-		$this->pluginUrl = plugin_dir_url(__FILE__);
-		$this->avatarImagesUrl = content_url('/demo/images');
+		$this->pluginUrl = \plugin_dir_url(__FILE__);
+		$this->avatarImagesUrl = \content_url('/demo/images');
 
 		$this->csvFilePath = $this->uploadDir . $this->filename;
 
@@ -92,12 +92,12 @@ class mp_csv
 
 	public function components_assets(): void
 	{
-		wp_enqueue_style('mp_csv', $this->pluginUrl . '/src/assets/scss/index.css', array(), '0.1.0', 'all');
+		\wp_enqueue_style('mp_csv', $this->pluginUrl . '/src/assets/scss/index.css', array(), '0.1.0', 'all');
 	}
 
 	public function callback($atts = array()): string
 	{
-		extract(shortcode_atts(array(
+		extract(\shortcode_atts(array(
 			'column' => 'A',
 			'title' => '當週竄升 TOP 50'
 		), $atts));
@@ -138,7 +138,7 @@ class mp_csv
 			if ($key === 0) {
 				return [
 					...$props,
-					'class' => 'text-left',
+					'class' => 'text-left crown',
 				];
 			}
 			if ($key === 2) {
@@ -154,7 +154,6 @@ class mp_csv
 ?>
 
 
-
 		<h2 class="text-center text-xl mb-12 font-bold"><?= $title ?></h2>
 
 		<div class="grid grid-cols-6 gap-y-8">
@@ -168,8 +167,8 @@ class mp_csv
 		</div>
 
 
-		<div class="grid grid-cols-1 md:grid-cols-2">
-			<table class="mt-12 mx-2 table table-vertical">
+		<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-4">
+			<table class="mt-12 table table-vertical">
 				<thead>
 					<tr>
 						<th>排名</th>
@@ -186,7 +185,7 @@ class mp_csv
 				</tbody>
 			</table>
 
-			<table class="mt-12 mx-2 table table-vertical">
+			<table class="mt-12 table table-vertical">
 				<thead>
 					<tr>
 						<th>排名</th>
