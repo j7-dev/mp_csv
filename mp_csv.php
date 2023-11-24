@@ -81,8 +81,10 @@ class mp_csv
 			foreach ($data as $key => $value) {
 				if (!in_array($key, [0, 1])) {
 					for ($i = 0; $i < $this->count_cols; $i++) {
-						$alphabet = chr($asciiA + $i);
-						array_push($csvData[$alphabet], $value[$i] ?? '');
+						if (!empty($value[$i])) {
+							$alphabet = chr($asciiA + $i);
+							array_push($csvData[$alphabet], $value[$i] ?? '');
+						}
 					}
 				}
 			}
