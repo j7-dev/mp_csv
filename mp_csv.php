@@ -6,7 +6,7 @@
  * Plugin Name:       MP CSV
  * Plugin URI:
  * Description:       將CSV檔上傳到指定地方，自動抓取資料，並且提供短碼做業績排行顯示
- * Version:           0.0.2
+ * Version:           0.0.3
  * Author:            j7.dev.gg
  * Author URI:        https://github.com/j7-dev
  * License:           GPL-2.0+
