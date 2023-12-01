@@ -6,7 +6,7 @@
  * Plugin Name:       MP CSV
  * Plugin URI:
  * Description:       將CSV檔上傳到指定地方，自動抓取資料，並且提供短碼做業績排行顯示
- * Version:           0.0.3
+ * Version:           0.0.5
  * Author:            j7.dev.gg
  * Author URI:        https://github.com/j7-dev
  * License:           GPL-2.0+
@@ -136,29 +136,6 @@ class mp_csv
 
 
 		$html = '';
-
-		function getAvatarProps(int $key, string $name, string $column, string $url): array
-		{
-
-			$props = [
-				'title' => $name,
-				'src'   => $url . '/' . $column . (((int) $key) + 1) . '.png',
-			];
-			if ($key === 0) {
-
-				return array_merge($props, [
-					'class' => 'text-left crown',
-				]);
-			}
-			if ($key === 2) {
-				return array_merge($props, [
-					'class' => 'text-right',
-				]);
-			}
-
-			return $props;
-		}
-
 ?>
 
 
@@ -166,7 +143,7 @@ class mp_csv
 
 		<div class="grid grid-cols-6 gap-y-8">
 			<?php foreach ($topFive as $key => $name) :
-				$args = getAvatarProps($key, $name, $column, $this->avatarImagesUrl);
+				$args = $this->getAvatarProps($key, $name, $column, $this->avatarImagesUrl);
 			?>
 				<div class="<?= $key >= 3 ? 'col-span-3' : 'col-span-2' ?>">
 					<?= Components::renderAvatar($args); ?>
@@ -217,6 +194,28 @@ class mp_csv
 
 
 		return $html;
+	}
+
+	public function getAvatarProps(int $key, string $name, string $column, string $url): array
+	{
+
+		$props = [
+			'title' => $name,
+			'src'   => $url . '/' . $column . (((int) $key) + 1) . '.png',
+		];
+		if ($key === 0) {
+
+			return array_merge($props, [
+				'class' => 'text-left crown',
+			]);
+		}
+		if ($key === 2) {
+			return array_merge($props, [
+				'class' => 'text-right',
+			]);
+		}
+
+		return $props;
 	}
 }
 
