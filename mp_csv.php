@@ -103,10 +103,11 @@ class mp_csv
 
 	public function callback($atts = array()): string
 	{
-		extract(\shortcode_atts(array(
-			'column' => 'A',
-			'title' => '當週竄升 TOP 50'
-		), $atts));
+		extract(\shortcode_atts(
+			array(
+				'column' => 'A',
+				'title' => '當週竄升 TOP 50'
+			), $atts));
 
 		$column = strtoupper($column);
 
@@ -127,7 +128,7 @@ class mp_csv
 
 
 		// 使用array_chunk分割陣列
-		$splitArrays = array_chunk($rest, (int)$splitPoint);
+		$splitArrays = array_chunk($rest, (int) $splitPoint);
 
 		// 分割後的兩個陣列
 		$firstArray = $splitArrays[0];
@@ -136,15 +137,18 @@ class mp_csv
 
 
 		$html = '';
-?>
+		ob_start();
+		?>
 
 
-		<h2 class="text-center text-xl mb-12 font-bold"><?= $title ?></h2>
+		<h2 class="text-center text-xl mb-12 font-bold">
+			<?= $title ?>
+		</h2>
 
 		<div class="grid grid-cols-6 gap-y-8">
-			<?php foreach ($topFive as $key => $name) :
+			<?php foreach ($topFive as $key => $name):
 				$args = $this->getAvatarProps($key, $name, $column, $this->avatarImagesUrl);
-			?>
+				?>
 				<div class="<?= $key >= 3 ? 'col-span-3' : 'col-span-2' ?>">
 					<?= Components::renderAvatar($args); ?>
 				</div>
@@ -161,10 +165,14 @@ class mp_csv
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach ($firstArray as $key => $name) : ?>
+					<?php foreach ($firstArray as $key => $name): ?>
 						<tr>
-							<td><?= $key + 6 ?></td>
-							<td><?= $name ?></td>
+							<td>
+								<?= $key + 6 ?>
+							</td>
+							<td>
+								<?= $name ?>
+							</td>
 						</tr>
 					<?php endforeach; ?>
 				</tbody>
@@ -178,10 +186,14 @@ class mp_csv
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach ($secondArray as $key => $name) : ?>
+					<?php foreach ($secondArray as $key => $name): ?>
 						<tr>
-							<td><?= $key + $splitPoint + 6 ?></td>
-							<td><?= $name ?></td>
+							<td>
+								<?= $key + $splitPoint + 6 ?>
+							</td>
+							<td>
+								<?= $name ?>
+							</td>
 						</tr>
 					<?php endforeach; ?>
 				</tbody>
@@ -189,7 +201,7 @@ class mp_csv
 		</div>
 
 
-<?php
+		<?php
 		$html .= ob_get_clean();
 
 
@@ -201,7 +213,7 @@ class mp_csv
 
 		$props = [
 			'title' => $name,
-			'src'   => $url . '/' . $column . (((int) $key) + 1) . '.png',
+			'src' => $url . '/' . $column . (((int) $key) + 1) . '.png',
 		];
 		if ($key === 0) {
 
