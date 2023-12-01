@@ -110,7 +110,7 @@ class mp_csv
 
 		$column = strtoupper($column);
 
-		$tableData = $this->csvData[$column];
+		$tableData = $this->csvData[$column] ?? [];
 
 
 		// 使用 array_slice() 切割前5個元素
@@ -139,21 +139,21 @@ class mp_csv
 
 		function getAvatarProps(int $key, string $name, string $column, string $url): array
 		{
+
 			$props = [
 				'title' => $name,
-				'src'   => $url . '/' . $column . $key + 1 . '.png',
+				'src'   => $url . '/' . $column . (((int) $key) + 1) . '.png',
 			];
 			if ($key === 0) {
-				return [
-					...$props,
+
+				return array_merge($props, [
 					'class' => 'text-left crown',
-				];
+				]);
 			}
 			if ($key === 2) {
-				return [
-					...$props,
+				return array_merge($props, [
 					'class' => 'text-right',
-				];
+				]);
 			}
 
 			return $props;
