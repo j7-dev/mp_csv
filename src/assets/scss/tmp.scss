@@ -102,28 +102,46 @@
   position: static;
 }
 
-.col-span-2 {
-  grid-column: span 2 / span 2;
+.mx-2 {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
 }
 
-.col-span-3 {
-  grid-column: span 3 / span 3;
+.my-8 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.mb-0 {
+  margin-bottom: 0px;
 }
 
 .mb-12 {
   margin-bottom: 3rem;
 }
 
+.ml-3 {
+  margin-left: 0.75rem;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
 .mt-12 {
   margin-top: 3rem;
 }
 
-.mt-4 {
-  margin-top: 1rem;
+.block {
+  display: block;
 }
 
 .inline-block {
   display: inline-block;
+}
+
+.flex {
+  display: flex;
 }
 
 .table {
@@ -142,20 +160,37 @@
   width: 4rem;
 }
 
+.w-full {
+  width: 100%;
+}
+
 .grid-cols-1 {
   grid-template-columns: repeat(1, minmax(0, 1fr));
 }
 
-.grid-cols-6 {
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-}
-
-.gap-y-8 {
-  row-gap: 2rem;
+.items-center {
+  align-items: center;
 }
 
 .rounded-full {
   border-radius: 9999px;
+}
+
+.border-4 {
+  border-width: 4px;
+}
+
+.border-solid {
+  border-style: solid;
+}
+
+.border-black {
+  --tw-border-opacity: 1;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity));
+}
+
+.border-transparent {
+  border-color: transparent;
 }
 
 .object-cover {
@@ -163,16 +198,16 @@
      object-fit: cover;
 }
 
-.text-left {
-  text-align: left;
+.pl-8 {
+  padding-left: 2rem;
 }
 
 .text-center {
   text-align: center;
 }
 
-.text-right {
-  text-align: right;
+.text-\[1\.5rem\] {
+  font-size: 1.5rem;
 }
 
 .text-base {
@@ -226,7 +261,7 @@ table.table {
   td,
 	th {
     width: 0;
-    border: 1px solid #ddd;
+    border: 1px solid transparent;
     padding: 0.75rem 0.5rem;
     line-height: 1;
   }
@@ -259,7 +294,7 @@ table.table {
     table-layout: fixed;
     tr {
       display: flex;
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid transparent;
     }
     th {
       background-color: #f8f8f8;
@@ -306,6 +341,14 @@ table.table {
 }
 
 @media (min-width: 768px) {
+  .md\:mt-12 {
+    margin-top: 3rem;
+  }
+
+  .md\:inline-block {
+    display: inline-block;
+  }
+
   .md\:h-24 {
     height: 6rem;
   }
@@ -314,13 +357,21 @@ table.table {
     width: 6rem;
   }
 
+  .md\:w-\[32\%\] {
+    width: 32%;
+  }
+
   .md\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .md\:gap-x-4 {
-    -moz-column-gap: 1rem;
-         column-gap: 1rem;
+  .md\:border-gray-300 {
+    --tw-border-opacity: 1;
+    border-color: rgb(209 213 219 / var(--tw-border-opacity));
+  }
+
+  .md\:pl-0 {
+    padding-left: 0px;
   }
 
   .md\:text-lg {

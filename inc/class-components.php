@@ -14,6 +14,8 @@ class Components
 		extract(
 			\shortcode_atts(
 				array(
+					'index' => 1,
+					'column' => 'A',
 					'src' => '',
 					'title' => '',
 					'size' => 'h-16 w-16 md:h-24 md:w-24 ',
@@ -35,14 +37,17 @@ class Components
 
 		ob_start();
 		?>
-		<div class="avatar <?= $class ?>">
+		<div class="avatar flex items-center <?= $class ?>">
 			<div
 				class="group inline-block rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 <?= $size; ?>">
 				<img class="group-hover:scale-[120%] duration-300 rounded-full object-cover <?= $size; ?>"
 					src="<?= $src ?>" />
 			</div>
 			<?php if ($title): ?>
-				<h3 class="mt-4 font-semibold text-base md:text-lg">
+				<h3 class="font-semibold text-base md:text-lg flex items-center ml-3">
+					<span class="text-[1.5rem] mr-2">
+						<?= sprintf('%02d', $index + 1) ?>
+					</span>
 					<?= $title ?>
 				</h3>
 			<?php endif; ?>

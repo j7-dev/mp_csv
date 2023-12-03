@@ -31,6 +31,8 @@ class mp_csv
 	private $csvData;
 	private $pluginUrl;
 	private $shortcode = 'csv_table'; // 短碼名稱
+	private $top5_shortcode = 'csv_table_top5'; // 短碼名稱
+
 	private $count_cols = 8; // 要取幾欄的資料
 
 
@@ -42,7 +44,9 @@ class mp_csv
 		$this->init();
 
 		\add_action('wp_enqueue_scripts', [$this, 'components_assets']);
-		\add_shortcode($this->shortcode, [$this, 'callback']);
+		\add_shortcode($this->shortcode, [$this, 'csv_table_callback']);
+		\add_shortcode($this->top5_shortcode, [$this, 'csv_table_top5_callback']);
+
 	}
 
 	private function init(): void
@@ -101,7 +105,7 @@ class mp_csv
 		\wp_enqueue_style('mp_csv', $this->pluginUrl . '/src/assets/scss/index.css', array(), '0.1.0', 'all');
 	}
 
-	public function callback($atts = array()): string
+	public function csv_table_callback($atts = array()): string
 	{
 		extract(
 			\shortcode_atts(
@@ -141,67 +145,50 @@ class mp_csv
 
 
 		$html = '';
+		$html .= $this->csv_table_top5_callback($atts);
 		ob_start();
 		?>
 
+		<div class="grid grid-cols-1 md:grid-cols-2 border-4 border-solid border-black">
+			<div class="border-transparent md:border-gray-300"
+				style="border-right-style: solid; border-right-width:0.25rem">
+				<table class="mt-12 mb-0 table table-vertical">
 
-		<h2 class="text-center text-xl mb-12 font-bold">
-			<?= $title ?>
-		</h2>
+					<tbody>
+						<?php foreach ($firstArray as $key => $name):
+							$index = $key + 6;
+							?>
+							<tr>
+								<td>
+									<?= sprintf('%02d', $index) ?>
+								</td>
+								<td>
+									<?= $name ?>
+								</td>
+							</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+			</div>
+			<div>
+				<table class="md:mt-12 mb-0 table table-vertical">
 
-		<div class="grid grid-cols-6 gap-y-8">
-			<?php foreach ($topFive as $key => $name):
-				$args = $this->getAvatarProps($key, $name, $column, $this->avatarImagesUrl);
-				?>
-				<div class="<?= $key >= 3 ? 'col-span-3' : 'col-span-2' ?>">
-					<?= Components::renderAvatar($args); ?>
-				</div>
-			<?php endforeach; ?>
-		</div>
-
-
-		<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-4">
-			<table class="mt-12 table table-vertical">
-				<thead>
-					<tr>
-						<th>排名</th>
-						<th>名稱</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php foreach ($firstArray as $key => $name): ?>
-						<tr>
-							<td>
-								<?= $key + 6 ?>
-							</td>
-							<td>
-								<?= $name ?>
-							</td>
-						</tr>
-					<?php endforeach; ?>
-				</tbody>
-			</table>
-
-			<table class="mt-12 table table-vertical">
-				<thead>
-					<tr>
-						<th>排名</th>
-						<th>名稱</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php foreach ($secondArray as $key => $name): ?>
-						<tr>
-							<td>
-								<?= $key + $splitPoint + 6 ?>
-							</td>
-							<td>
-								<?= $name ?>
-							</td>
-						</tr>
-					<?php endforeach; ?>
-				</tbody>
-			</table>
+					<tbody>
+						<?php foreach ($secondArray as $key => $name):
+							$index = $key + $splitPoint + 6;
+							?>
+							<tr>
+								<td>
+									<?= sprintf('%02d', $index) ?>
+								</td>
+								<td>
+									<?= $name ?>
+								</td>
+							</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+			</div>
 		</div>
 
 
@@ -212,24 +199,64 @@ class mp_csv
 		return $html;
 	}
 
+	public function csv_table_top5_callback($atts = array()): string
+	{
+		extract(
+			\shortcode_atts(
+				array(
+					'column' => 'A',
+					'title' => '當週竄升 TOP 50'
+				),
+				$atts
+			)
+		);
+
+		$column = strtoupper($column);
+
+		$tableData = $this->csvData[$column] ?? [];
+
+		// 使用 array_slice() 切割前5個元素
+		$topFive = array_slice($tableData, 0, 5);
+
+		$html = '';
+		ob_start();
+		?>
+		<?php if ($title): ?>
+			<h2 class="text-center text-xl mb-12 font-bold">
+				<?= $title ?>
+			</h2>
+		<?php endif; ?>
+
+		<div class="text-center pl-8 md:pl-0">
+			<?php foreach ($topFive as $key => $name):
+				$args = $this->getAvatarProps($key, $name, $column, $this->avatarImagesUrl);
+				?>
+				<div class="block w-full my-8 md:w-[32%]  md:inline-block">
+					<?= Components::renderAvatar($args); ?>
+				</div>
+			<?php endforeach; ?>
+		</div>
+
+		<?php
+		$html .= ob_get_clean();
+
+
+		return $html;
+	}
+
+
+
 	public function getAvatarProps(int $key, string $name, string $column, string $url): array
 	{
 
 		$props = [
+			'index' => $key,
+			'column' => $column,
 			'title' => $name,
 			'src' => $url . '/' . $column . (((int) $key) + 1) . '.png',
+			'class' => 'mx-2'
 		];
-		if ($key === 0) {
 
-			return array_merge($props, [
-				'class' => 'text-left crown',
-			]);
-		}
-		if ($key === 2) {
-			return array_merge($props, [
-				'class' => 'text-right',
-			]);
-		}
 
 		return $props;
 	}
