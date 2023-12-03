@@ -44,7 +44,7 @@ class Components
 					src="<?= $src ?>" />
 			</div>
 			<?php if ($title): ?>
-				<h3 class="font-semibold text-base md:text-lg flex items-center ml-3">
+				<h3 class="mt-0 flex-1 font-semibold text-base md:text-lg flex items-center ml-3">
 					<span class="text-[1.5rem] mr-2">
 						<?= sprintf('%02d', $index + 1) ?>
 					</span>
