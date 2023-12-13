@@ -92,3 +92,37 @@ table.table {
 		}
 	}
 }
+
+.csv_swiper {
+	.swiper-button-next,
+	.swiper-button-prev {
+		background-color: #fff;
+		color: #7f715c;
+		box-shadow: 20px 20px 60px #58667d5e;
+		border-radius: 100%;
+		width: 40px;
+		height: 40px;
+		line-height: 40px;
+		&::after {
+			font-size: 16px;
+		}
+	}
+	.swiper-button-next {
+		right: 10px;
+	}
+	.swiper-button-prev {
+		left: 10px;
+	}
+
+	.swiper-pagination-bullet {
+		width: 8px;
+		height: 8px;
+		border-radius: 100px;
+		background-color: var(--theme-palette-color-7, #ffffff);
+		transition: width 0.4s ease-out;
+		margin: 0 var(--swiper-pagination-bullet-horizontal-gap, 4px);
+		&-active {
+			width: 24px;
+		}
+	}
+}
