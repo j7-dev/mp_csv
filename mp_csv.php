@@ -149,15 +149,15 @@ class mp_csv
 						<?php foreach ($firstArray as $key => $name):
             $index = $key + 6;
             ?>
-																																		<tr>
-																																			<td>
-																																				<?=sprintf('%02d', $index)?>
-																																			</td>
-																																			<td>
-																																				<?=$name?>
-																																			</td>
-																																		</tr>
-																																	<?php endforeach;?>
+																																				<tr>
+																																					<td>
+																																						<?=sprintf('%02d', $index)?>
+																																					</td>
+																																					<td>
+																																						<?=$name?>
+																																					</td>
+																																				</tr>
+																																			<?php endforeach;?>
 					</tbody>
 				</table>
 			</div>
@@ -168,15 +168,15 @@ class mp_csv
 						<?php foreach ($secondArray as $key => $name):
             $index = $key + $splitPoint + 6;
             ?>
-																																		<tr>
-																																			<td>
-																																				<?=sprintf('%02d', $index)?>
-																																			</td>
-																																			<td>
-																																				<?=$name?>
-																																			</td>
-																																		</tr>
-																																	<?php endforeach;?>
+																																				<tr>
+																																					<td>
+																																						<?=sprintf('%02d', $index)?>
+																																					</td>
+																																					<td>
+																																						<?=$name?>
+																																					</td>
+																																				</tr>
+																																			<?php endforeach;?>
 					</tbody>
 				</table>
 			</div>
@@ -221,10 +221,10 @@ $html .= ob_get_clean();
 			<?php foreach ($topFive as $key => $name):
             $args = $this->getAvatarProps($key, $name, $column, $this->avatarImagesUrl);
             ?>
-																															<div class="block w-full my-8 md:w-[32%]  md:inline-block">
-																																<?=Components::renderAvatar($args);?>
-																															</div>
-																														<?php endforeach;?>
+																																	<div class="block w-full my-8 md:w-[32%]  md:inline-block">
+																																		<?=Components::renderAvatar($args);?>
+																																	</div>
+																																<?php endforeach;?>
 		</div>
 
 	<?php
@@ -252,14 +252,15 @@ $html .= ob_get_clean();
         extract(
             \shortcode_atts(
                 array(
-                    'amount' => 5,
+                    'amount'    => 5,
+                    'post_type' => 'post',
                 ),
                 $atts
             )
         );
 
         $args = array(
-            'post_type'      => 'post',
+            'post_type'      => $post_type,
             'post_status'    => 'publish',
             'posts_per_page' => $amount,
             'orderby'        => 'date',
@@ -287,18 +288,18 @@ $html .= ob_get_clean();
             $permalink = \get_permalink($post->ID);
             $image_url = \get_the_post_thumbnail_url($post->ID, 'full');
             ?>
-														<div class="swiper-slide">
-															<div class="relative group">
-																<img src="<?=$image_url?>" class="group-hover:scale-125 transition duration-300 w-full h-full object-cover">
-																<div class="absolute bottom-0 left-0 p-[30px] w-full">
-																	<a class="hover:opacity-70 transition duration-100 no-underline pointer-cursor" href="<?=$permalink?>">
-																		<h2 class="my-4 text-white text-[24px] leading-9 tracking-[2px] no-underline"><?=$title;?></h2>
-																	</a>
-																	<p class="m-0 text-[#ffffffb5] text-[13px] uppercase"><?=$date?></p>
+																<div class="swiper-slide">
+																	<div class="relative group">
+																		<img src="<?=$image_url?>" class="group-hover:scale-125 transition duration-300 w-full h-full object-cover">
+																		<div class="absolute bottom-0 left-0 p-[30px] w-full">
+																			<a class="hover:opacity-70 transition duration-100 no-underline pointer-cursor" href="<?=$permalink?>">
+																				<h2 class="my-4 text-white text-[24px] leading-9 tracking-[2px] no-underline"><?=$title;?></h2>
+																			</a>
+																			<p class="m-0 text-[#ffffffb5] text-[13px] uppercase"><?=$date?></p>
+																		</div>
+																	</div>
 																</div>
-															</div>
-														</div>
-														<?php endforeach;?>
+																<?php endforeach;?>
 			</div>
 			<!-- If we need pagination -->
 			<div class="swiper-pagination"></div>

@@ -14,26 +14,36 @@
 
 ## 使用範例
 
-顯示業績表格 + 前五名
-
-```
+```php
+/* 顯示業績表格 + 前五名
+ * column 對應 EXCEL 的欄位
+ * title 不填為隱藏
+ */
 [csv_table column="A" title="業績表格"]
 ```
 
 <img src="https://github.com/j7-dev/mp_csv/assets/9213776/d7caae3e-2715-4762-8b54-30491390a405" />
 
-只顯示前五名
 
-```
+
+```php
+/* 只顯示前五名
+ * column 對應 EXCEL 的欄位
+ */
 [csv_table_top5 column="A"]
 ```
 
 ![image](https://github.com/j7-dev/mp_csv/assets/9213776/60c8d15d-191c-4c4d-b28b-0c56df60e1c3)
 
-顯示 slider 輪播，會抓取文章縮圖，number 預設是 5 篇，可不填
 
-```
-[csv_swiper number="5"]
+
+```php
+/* 顯示 slider 輪播，會抓取文章縮圖
+ * number 預設是 5 篇，可不填
+ * post_type 預設是 post，可不填
+ */
+[csv_swiper]
+[csv_swiper number="5" post_type="post"]
 ```
 
 ![image](https://github.com/j7-dev/mp_csv/assets/9213776/df317c5b-09ef-481b-ac20-bc0e288d6437)
