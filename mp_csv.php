@@ -5,7 +5,7 @@
  * Plugin Name:       MP CSV
  * Plugin URI:
  * Description:       將CSV檔上傳到指定地方，自動抓取資料，並且提供短碼做業績排行顯示
- * Version:           0.0.9
+ * Version:           0.0.10
  * Author:            j7.dev.gg
  * Author URI:        https://github.com/j7-dev
  * License:           GPL-2.0+
@@ -24,7 +24,7 @@ require_once __DIR__ . '/inc/class-components.php';
 class mp_csv
 {
     private $filename  = 'wp_live_demo.csv'; // CSV 檔案名稱
-    private $uploadDir = WP_CONTENT_DIR . '/demo/'; // 檔案上傳路徑
+    private $uploadDir = ''; // 檔案上傳路徑
     private $avatarImagesUrl;
     private $csvFilePath;
     private $csvData;
@@ -37,6 +37,7 @@ class mp_csv
 
     function __construct()
     {
+        $this->uploadDir = dirname(WP_CONTENT_DIR) . '/demo/';
         $this->init();
 
         \add_action('wp_enqueue_scripts', [ $this, 'components_assets' ]);
@@ -149,15 +150,15 @@ class mp_csv
 						<?php foreach ($firstArray as $key => $name):
             $index = $key + 6;
             ?>
-																																				<tr>
-																																					<td>
-																																						<?=sprintf('%02d', $index)?>
-																																					</td>
-																																					<td>
-																																						<?=$name?>
-																																					</td>
-																																				</tr>
-																																			<?php endforeach;?>
+																																							<tr>
+																																								<td>
+																																									<?=sprintf('%02d', $index)?>
+																																								</td>
+																																								<td>
+																																									<?=$name?>
+																																								</td>
+																																							</tr>
+																																						<?php endforeach;?>
 					</tbody>
 				</table>
 			</div>
@@ -168,15 +169,15 @@ class mp_csv
 						<?php foreach ($secondArray as $key => $name):
             $index = $key + $splitPoint + 6;
             ?>
-																																				<tr>
-																																					<td>
-																																						<?=sprintf('%02d', $index)?>
-																																					</td>
-																																					<td>
-																																						<?=$name?>
-																																					</td>
-																																				</tr>
-																																			<?php endforeach;?>
+																																							<tr>
+																																								<td>
+																																									<?=sprintf('%02d', $index)?>
+																																								</td>
+																																								<td>
+																																									<?=$name?>
+																																								</td>
+																																							</tr>
+																																						<?php endforeach;?>
 					</tbody>
 				</table>
 			</div>
@@ -221,10 +222,10 @@ $html .= ob_get_clean();
 			<?php foreach ($topFive as $key => $name):
             $args = $this->getAvatarProps($key, $name, $column, $this->avatarImagesUrl);
             ?>
-																																	<div class="block w-full my-8 md:w-[32%]  md:inline-block">
-																																		<?=Components::renderAvatar($args);?>
-																																	</div>
-																																<?php endforeach;?>
+																																				<div class="block w-full my-8 md:w-[32%]  md:inline-block">
+																																					<?=Components::renderAvatar($args);?>
+																																				</div>
+																																			<?php endforeach;?>
 		</div>
 
 	<?php
@@ -288,18 +289,18 @@ $html .= ob_get_clean();
             $permalink = \get_permalink($post->ID);
             $image_url = \get_the_post_thumbnail_url($post->ID, 'full');
             ?>
-																<div class="swiper-slide">
-																	<div class="relative group">
-																		<img src="<?=$image_url?>" class="group-hover:scale-125 transition duration-300 w-full h-full object-cover">
-																		<div class="absolute bottom-0 left-0 p-[30px] w-full">
-																			<a class="hover:opacity-70 transition duration-100 no-underline pointer-cursor" href="<?=$permalink?>">
-																				<h2 class="my-4 text-white text-[24px] leading-9 tracking-[2px] no-underline"><?=$title;?></h2>
-																			</a>
-																			<p class="m-0 text-[#ffffffb5] text-[13px] uppercase"><?=$date?></p>
-																		</div>
-																	</div>
-																</div>
-																<?php endforeach;?>
+																			<div class="swiper-slide">
+																				<div class="relative group">
+																					<img src="<?=$image_url?>" class="group-hover:scale-125 transition duration-300 w-full h-full object-cover">
+																					<div class="absolute bottom-0 left-0 p-[30px] w-full">
+																						<a class="hover:opacity-70 transition duration-100 no-underline pointer-cursor" href="<?=$permalink?>">
+																							<h2 class="my-4 text-white text-[24px] leading-9 tracking-[2px] no-underline"><?=$title;?></h2>
+																						</a>
+																						<p class="m-0 text-[#ffffffb5] text-[13px] uppercase"><?=$date?></p>
+																					</div>
+																				</div>
+																			</div>
+																			<?php endforeach;?>
 			</div>
 			<!-- If we need pagination -->
 			<div class="swiper-pagination"></div>
